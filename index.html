@@ -12,9 +12,9 @@
 
     <div class="container">
         <header>
-            <h1>Matching Game</h1>
+            <h1>Match-Match</h1>
         </header>
-
+        
         <section class="score-panel">
         	<ul class="stars">
         		<li><i class="fa fa-star"></i></li>
@@ -22,9 +22,11 @@
         		<li><i class="fa fa-star"></i></li>
         	</ul>
 
-        	<span class="moves">3</span> Moves
-
-            <div class="restart">
+        	<span class="moves">0</span> Moves
+          <!-- Creating timer for the game -->
+          <span class="set-timer">0:00</span>
+            
+            <div class="restart" >
         		<i class="fa fa-repeat"></i>
         	</div>
         </section>
@@ -79,8 +81,20 @@
                 <i class="fa fa-cube"></i>
             </li>
         </ul>
-    </div>
 
+        <!-- Creation of winning condition screen-->
+        <div class="popup-win" id="popup-win-id">
+
+              <!-- Body of winning condition screen -->
+              <div class="popup-body">
+                  <p><b>Congratulation!</b> You won the game!</p>
+                  <p>Number of moves: <span class="moves">0</span></p>
+                  <p>Number of achieved stars: <span class="stars-quantity">3</span></p>
+                  <p>Time: <span class="set-timer">0:00</span></p>
+                    
+        
+    </div>
+    
     <script src="js/app.js"></script>
 </body>
 </html>

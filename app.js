@@ -1,14 +1,17 @@
-/*
- * Create a list that holds all of your cards
- */
+// List containing all the cards
+var deck =  ["fa-leaf", "fa-leaf","fa-bicycle", "fa-bicycle", "fa-bomb", "fa-bomb","fa-diamond", "fa-diamond", "fa-paper-plane-o", "fa-paper-plane-o", "fa-anchor", "fa-anchor"
+"fa-bolt", "fa-bolt", "fa-cube", "fa-cube"];
 
-
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
+// Defining variables
+var matchedCards = 0;
+var quantityOfMoves = 0;
+var numOfStars = 3;
+var timer = {seconds: 0, minutes: 0};
+var open = [];
+var expert = 12;
+var amateur = 18;
+var beginner = 25;
+var winPopUp = $("#popup-win-id");
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -25,7 +28,37 @@ function shuffle(array) {
     return array;
 }
 
+// Mixing cards on the board by using (shuffle function)
+function updateCards() {
+    var index = 0;
+    deck = shuffle(deck);
+    $.each($(".card i"), function() { 
+      $(this).attr("class", "fa " + deck[index]);
+      index += 1; 
+    });
+    
+    timerRestart();
+};
 
+// Incrementing time , also checking for correct format of time
+function timerSet(){
+    if(timer.seconds === 59){
+      timer.seconds = 0;
+      timer.minutes +=1;
+    }else if(timer.seconds < 59){
+      timer.seconds +=1;
+    }
+}
+
+// Restarts the time settings
+function timeRestart() {
+    clearInterval(timer.clearTime);
+    timer.seconds = 0;
+    timer.minutes = 0;
+    $(".set-timer").text("0:00");
+
+    timer.clearTime = setInterval(timeSet, 2000);
+};
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)

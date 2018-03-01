@@ -89,6 +89,7 @@ h1 {
     text-align: left;
     width: 345px;
     margin-bottom: 10px;
+    font-size: 30px;
 }
 
 .score-panel .stars {
@@ -139,4 +140,36 @@ h1 {
   height: 100%;
   padding: 10px;
   margin: 5% auto;
+}
+
+ /*
+ * Timer's style
+ */
+
+.set-timer{
+  padding-left: 25px;
+}
+
+ /*
+ * Responsive content
+ */
+
+@media all (max-width: 635px) {
+	.deck {
+		width: 85%;
+	}
+
+	.deck .card {
+		height: 60%;
+		width: 60%;
+	}
+
+  .popup-body{
+    width: 50%;
+    height: 50%
+  }
+
+  .popup-win{
+    width: 50%
+  }
 }

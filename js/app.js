@@ -186,20 +186,6 @@ var resetBoard = function() {
     open = [];
 };
 
-// Resets game state and closes winning message(window)
-var playAgain = function() {
-    restartGame();
-    winPopUp.css("display", "none");
-};
-
-// Event listeners
-$(".card").click(gameBody);
-$(".restart").click(restartGame);
-$(".play-again").click(playAgain);
-
-// Provides a randomized game board
-$(shuffleCards);
-
 // The game algorithm and logic
 var gameBody = function() {
     if (isCorrectMove( $(this) )) {
@@ -217,3 +203,17 @@ var gameBody = function() {
         }
     }
 };
+
+// Resets game state and closes winning message(window)
+var playAgain = function() {
+    restartGame();
+    winPopUp.css("display", "none");
+};
+
+// Event listeners
+$(".card").click(gameBody);
+$(".restart").click(restartGame);
+$(".play-again").click(playAgain);
+
+// Provides a randomized game board
+$(shuffleCards);

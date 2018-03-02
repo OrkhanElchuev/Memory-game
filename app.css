@@ -153,14 +153,14 @@ h1 {
  */
 
 @media all (max-width: 635px) {
-  .deck {
-    width: 85%;
-  }
+	.deck {
+		width: 85%;
+	}
 
-  .deck .card {
-    height: 60%;
-    width: 60%;
-  }
+	.deck .card {
+		height: 60%;
+		width: 60%;
+	}
 
   .popup-body{
     width: 50%;

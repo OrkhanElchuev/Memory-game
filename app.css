@@ -118,14 +118,14 @@ h1 {
 */
 
 .popUpWin {
-    display: none;
+    display:block;
+    position:absolute;
     background-color: #f7f2e8;
-    width: 65%;
+    width: 55%;
     border-radius: 20px 20px 20px 20px;
     font-family: cursive;
     text-align: center;
-    padding: 17px;
-    margin: 17% auto;
+    margin-top: -47px;
     color: #1a3023;
     font-size: 2em;
 }
@@ -141,8 +141,8 @@ h1 {
   color: #332a1c;
   text-align: center;
   font-size: 1em;
-  width: 45%;
-  height: 100%;
+  width: 30%;
+  height: 30%;
   padding: 10px;
   margin: 5% auto;
 }
@@ -152,22 +152,17 @@ h1 {
  * Responsive content
  */
 
-@media all (max-width: 635px) {
-  .deck {
+@media (max-width: 635px){
+  .deck{
     width: 85%;
-   }
+  }
 
-  .deck .card {
+  .deck .card{
     height: 60%;
     width: 60%;
-   }
-
-  .popup-body{
-    width: 50%;
-    height: 50%
   }
 
   .popUpWin{
-    width: 50%
+    width: 50%;
   }
 }

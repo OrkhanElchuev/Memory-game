@@ -1,5 +1,6 @@
 // List containing all the cards
-var deck =  ["fa-leaf", "fa-leaf","fa-bicycle", "fa-bicycle", "fa-bomb", "fa-bomb","fa-diamond", "fa-diamond", "fa-paper-plane-o", "fa-paper-plane-o", "fa-anchor", "fa-anchor"
+var deck =  ["fa-leaf", "fa-leaf","fa-bicycle", "fa-bicycle", "fa-bomb", "fa-bomb",
+"fa-diamond", "fa-diamond", "fa-paper-plane-o", "fa-paper-plane-o", "fa-anchor", "fa-anchor",
 "fa-bolt", "fa-bolt", "fa-cube", "fa-cube"];
 
 // Defining variables
@@ -8,7 +9,7 @@ var quantityOfMoves = 0;
 var numOfStars = 3;
 var timer = {seconds: 0, minutes: 0, resetTime: -1};
 var open = [];
-var winPopUp = $("#popup-win-id");
+var winPopUp = $("popup-win-id");
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -36,7 +37,7 @@ var timerSet = function(){
       timer.seconds +=1;
     }
     var currentTime = String(timer.minutes) + ":" + String(timer.seconds);
-    $(.timer).text(currentTime);
+    $(".timer").text(currentTime);
 };
 
 // Restarts the time settings
@@ -52,7 +53,6 @@ function timerReset() {
     timer.resetTime = setInterval(timerSet, 2000);
 };
 
-console.log(deck);
 // Mixing cards on the board by using (shuffle function)
 function shuffleCards() {
     var index = 0;
@@ -68,7 +68,7 @@ function shuffleCards() {
 
 // Triggers winning condition
 function displayWinningMsg(){
-    popUpWin.css("display", "block");
+    winPopUp.css("display", "block");
 };
 
 // Removes stars from list of stars
@@ -186,27 +186,17 @@ var restartGame = function() {
 // The game algorithm and logic
 var gameBody = function() {
     if (isCorrectMove( $(this) )) {
-
         if (open.length === 0) {
             revealCards( $(this) );
-
         } else if (open.length === 1) {
             revealCards( $(this) );
             quantityOfMoves += 1;
             updateNumOfMoves();
-
-            if (matchingCheck()) {
-                setTimeout(setMatch, 200);
-
-            } else {
-                setTimeout(resetBoard, 500);
-
-            }
         }
     }
 };
 
-// Resets game state and toggles win modal display off
+// Resets game state and closes winning message(window)
 var playAgain = function() {
     restartGame();
     winPopUp.css("display", "none");
@@ -220,5 +210,5 @@ $(".card").click(gameBody);
 $(".restart").click(restartGame);
 $(".play-again").click(playAgain);
 
-// Provides a randomized game board on page load
+// Provides a randomized game board
 $(shuffleCards);

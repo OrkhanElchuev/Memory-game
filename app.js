@@ -1,7 +1,7 @@
 // List containing all the cards
-var deck =  ["fa-leaf", "fa-leaf","fa-bicycle", "fa-bicycle", "fa-bomb", "fa-bomb",
-"fa-diamond", "fa-diamond", "fa-paper-plane-o", "fa-paper-plane-o", "fa-anchor", "fa-anchor",
-"fa-bolt", "fa-bolt", "fa-cube", "fa-cube"];
+var deck =  ["fa-leaf", "fa-leaf","fa-bicycle", "fa-bicycle", "fa-bomb",
+"fa-bomb","fa-diamond", "fa-diamond", "fa-paper-plane-o", "fa-paper-plane-o",
+"fa-anchor", "fa-anchor","fa-bolt", "fa-bolt", "fa-cube", "fa-cube"];
 
 // Defining variables
 var matchedCards = 0;
@@ -9,7 +9,7 @@ var quantityOfMoves = 0;
 var numOfStars = 3;
 var timer = {seconds: 0, minutes: 0, resetTime: -1};
 var open = [];
-var winPopUp = $("popup-win-id");
+var winPopUp = $("#popup-win");
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -24,33 +24,6 @@ function shuffle(array) {
     }
 
     return array;
-};
-
-// Starts the timer, ensures valid format of time in terms of sec. and min.
-var timerSet = function(){
-
-    // Make sure that amount of seconds wont be > than 59
-    if(timer.seconds === 59){
-      timer.seconds = 0;
-      timer.minutes +=1;
-    }else {
-      timer.seconds +=1;
-    }
-    var currentTime = String(timer.minutes) + ":" + String(timer.seconds);
-    $(".timer").text(currentTime);
-};
-
-// Restarts the time settings
-function timerReset() {
-
-    // clears a timer set value
-    clearInterval(timer.resetTime);
-    timer.seconds = 0;
-    timer.minutes = 0;
-
-    // Updates the timer in HTML
-    $(".set-timer").text("0:00");
-    timer.resetTime = setInterval(timerSet, 2000);
 };
 
 // Mixing cards on the board by using (shuffle function)
@@ -69,6 +42,35 @@ function shuffleCards() {
 // Triggers winning condition
 function displayWinningMsg(){
     winPopUp.css("display", "block");
+};
+
+// Starts the timer, ensures valid format of time in terms of sec. and min.
+var timerSet = function(){
+
+    // Make sure that amount of seconds wont be > than 59
+    if(timer.seconds === 59){
+      timer.seconds = 0;
+      timer.minutes +=1;
+    } else {
+      timer.seconds +=1;
+    }
+
+    // Update HTML file with timer count
+    var currentTime = String(timer.minutes) + ":" + String(timer.seconds);
+    $(".set-timer").text(currentTime);
+};
+
+// Restarts the time settings
+function timerReset() {
+
+    // clears a timer set value
+    clearInterval(timer.resetTime);
+    timer.seconds = 0;
+    timer.minutes = 0;
+
+    // Updates the timer in HTML
+    $(".set-timer").text("0:0");
+    timer.resetTime = setInterval(timerSet, 1000);
 };
 
 // Removes stars from list of stars
@@ -91,12 +93,22 @@ function resetStars() {
     $(".stars-quantity").text(String(numOfStars));
 };
 
+// Checks whether cards are matching each other
+function matchingCheck() {
+    if (open[0].children().attr("class") === open[1].children().attr("class")){
+        return true;
+    } else {
+        return false;
+    }
+};
+
 // Updates number of moves in the HTML
 function updateNumOfMoves() {
     $(".moves").text(quantityOfMoves);
 
-    //
-    if (quantityOfMoves === 14 || quantityOfMoves === 18 || quantityOfMoves === 25) {
+    // Remove stars after certain quantity of moves
+    if (quantityOfMoves === 14 || quantityOfMoves === 18
+      || quantityOfMoves === 25) {
         removeStar();
     }
 };
@@ -104,15 +116,6 @@ function updateNumOfMoves() {
 // Check whether "card" is correct move
 function isCorrectMove(card) {
     return !(card.hasClass("open") || card.hasClass("match"));
-};
-
-// Checks whether cards are matching each other
-function matchingCheck() {
-    if (open[0].children().attr("class") === open[1].children().attr("class")) {
-        return true;
-    } else {
-        return false;
-    }
 };
 
 // Checks for winning condition
@@ -140,9 +143,21 @@ var setAsMatched = function() {
 
     // if winningCondition() returns true, display winning message, reset time
     if (winningCondition()) {
-        displayWinningMsg();
         clearInterval(timer.resetTime);
+        displayWinningMsg();
     }
+};
+
+// Resets all game state variables and resets all required HTML to default state
+var restartGame = function() {
+    matchedCards = 0;
+    quantityOfMoves = 0;
+    open = [];
+    timerReset();
+    updateNumOfMoves();
+    $(".card").attr("class", "card");
+    shuffleCards();
+    resetStars();
 };
 
 // Reveals cards on the board
@@ -171,17 +186,19 @@ var resetBoard = function() {
     open = [];
 };
 
-// Resets all game state variables and resets all required HTML to default state
-var restartGame = function() {
-    open = [];
-    matchedCards = 0;
-    quantityOfMoves = 0;
-    timerReset();
-    updateNumOfMoves();
-    $(".card").attr("class", "card");
-    shuffleCards();
-    resetStars();
+// Resets game state and closes winning message(window)
+var playAgain = function() {
+    restartGame();
+    winPopUp.css("display", "none");
 };
+
+// Event listeners
+$(".card").click(gameBody);
+$(".restart").click(restartGame);
+$(".play-again").click(playAgain);
+
+// Provides a randomized game board
+$(shuffleCards);
 
 // The game algorithm and logic
 var gameBody = function() {
@@ -192,23 +209,11 @@ var gameBody = function() {
             revealCards( $(this) );
             quantityOfMoves += 1;
             updateNumOfMoves();
+            if (matchingCheck()) {
+                setTimeout(setAsMatched, 200);
+            } else {
+                setTimeout(resetBoard, 600);
+            }
         }
     }
 };
-
-// Resets game state and closes winning message(window)
-var playAgain = function() {
-    restartGame();
-    winPopUp.css("display", "none");
-};
-
-/*
- * Initalize event listeners
- */
-
-$(".card").click(gameBody);
-$(".restart").click(restartGame);
-$(".play-again").click(playAgain);
-
-// Provides a randomized game board
-$(shuffleCards);

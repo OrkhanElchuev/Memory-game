@@ -92,3 +92,23 @@ function resetStars() {
 function displayWinningMsg(){
     popUpWin.css("display", "block");
 };
+
+// Updates number of moves in the HTML
+function updateNumOfMoves() {
+    $(".moves").text(quantityOfMoves);
+};
+
+// Checks whether cards are matching each other
+function matchingCheck() {
+    if (open[0].children().attr("class") === open[1].children().attr("class")) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
+// Check whether "card" is correct move
+function isCorrectMove(card) {
+    return !(card.hasClass("open") || card.hasClass("match"));
+};
+

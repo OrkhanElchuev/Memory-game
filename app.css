@@ -109,11 +109,16 @@ h1 {
     cursor: pointer;
 }
 
+.score-panel .set-timer {
+    margin-left: 25px;
+}
+
 /*
 *  Styles for the winning condition
 */
 
 .popUpWin {
+    display: none;
     background-color: #f7f2e8;
     width: 65%;
     border-radius: 20px 20px 20px 20px;
@@ -142,27 +147,20 @@ h1 {
   margin: 5% auto;
 }
 
- /*
- * Timer's style
- */
-
-.set-timer{
-  padding-left: 25px;
-}
 
  /*
  * Responsive content
  */
 
 @media all (max-width: 635px) {
-   .deck {
-	width: 85%;
-   }
+  .deck {
+    width: 85%;
+  }
 
-   .deck .card {
-	height: 60%;
-	width: 60%;
-   }
+  .deck .card {
+    height: 60%;
+    width: 60%;
+  }
 
   .popup-body{
     width: 50%;

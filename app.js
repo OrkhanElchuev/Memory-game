@@ -8,9 +8,6 @@ var quantityOfMoves = 0;
 var numOfStars = 3;
 var timer = {seconds: 0, minutes: 0, resetTime: -1};
 var open = [];
-var expert = 12;
-var amateur = 18;
-var beginner = 25;
 var winPopUp = $("#popup-win-id");
 
 // Shuffle function from http://stackoverflow.com/a/2450976
@@ -29,13 +26,13 @@ function shuffle(array) {
 };
 
 // Starts the timer, ensures valid format of time in terms of sec. and min.
-function timerSet(){
+var timerSet = function(){
 
     // Make sure that amount of seconds wont be > than 59
     if(timer.seconds === 59){
       timer.seconds = 0;
       timer.minutes +=1;
-    }else if(timer.seconds < 59){
+    }else {
       timer.seconds +=1;
     }
     var currentTime = String(timer.minutes) + ":" + String(timer.seconds);
@@ -55,6 +52,7 @@ function timerReset() {
     timer.resetTime = setInterval(timerSet, 2000);
 };
 
+console.log(deck);
 // Mixing cards on the board by using (shuffle function)
 function shuffleCards() {
     var index = 0;
@@ -66,6 +64,11 @@ function shuffleCards() {
       index += 1;
     });
     timerReset();
+};
+
+// Triggers winning condition
+function displayWinningMsg(){
+    popUpWin.css("display", "block");
 };
 
 // Removes stars from list of stars
@@ -88,14 +91,19 @@ function resetStars() {
     $(".stars-quantity").text(String(numOfStars));
 };
 
-// Triggers winning condition
-function displayWinningMsg(){
-    popUpWin.css("display", "block");
-};
-
 // Updates number of moves in the HTML
 function updateNumOfMoves() {
     $(".moves").text(quantityOfMoves);
+
+    //
+    if (quantityOfMoves === 14 || quantityOfMoves === 18 || quantityOfMoves === 25) {
+        removeStar();
+    }
+};
+
+// Check whether "card" is correct move
+function isCorrectMove(card) {
+    return !(card.hasClass("open") || card.hasClass("match"));
 };
 
 // Checks whether cards are matching each other
@@ -107,8 +115,110 @@ function matchingCheck() {
     }
 };
 
-// Check whether "card" is correct move
-function isCorrectMove(card) {
-    return !(card.hasClass("open") || card.hasClass("match"));
+// Checks for winning condition
+function winningCondition() {
+
+    /* 16 is the quantity of all cards on the board
+    * If all of them are opened then return true, otherwise false
+    */
+    if (matchedCards === 16) {
+        return true;
+    } else {
+        return false;
+    }
 };
 
+// Sets currently opened cards to the matched condition
+var setAsMatched = function() {
+    open.forEach(function(card) {
+        card.addClass("match");
+    });
+
+    // matchedCards +2 because two cards will reveal after matching
+    matchedCards += 2;
+    open = [];
+
+    // if winningCondition() returns true, display winning message, reset time
+    if (winningCondition()) {
+        displayWinningMsg();
+        clearInterval(timer.resetTime);
+    }
+};
+
+// Reveals cards on the board
+function revealCards(card) {
+
+    // if card doesnt have class "open", add it and show it
+    if (!card.hasClass("open")) {
+        card.addClass("open");
+        card.addClass("show");
+
+        // add a new item to the array of opened cards
+        open.push(card);
+    }
+};
+
+// Resets the board and closes all the opened cards
+var resetBoard = function() {
+
+    // For each element in card array remove open and show cases
+    open.forEach(function(card) {
+        card.toggleClass("open");
+        card.toggleClass("show");
+    });
+
+    // Set the defualt value to the array "open[]"
+    open = [];
+};
+
+// Resets all game state variables and resets all required HTML to default state
+var restartGame = function() {
+    open = [];
+    matchedCards = 0;
+    quantityOfMoves = 0;
+    timerReset();
+    updateNumOfMoves();
+    $(".card").attr("class", "card");
+    shuffleCards();
+    resetStars();
+};
+
+// The game algorithm and logic
+var gameBody = function() {
+    if (isCorrectMove( $(this) )) {
+
+        if (open.length === 0) {
+            revealCards( $(this) );
+
+        } else if (open.length === 1) {
+            revealCards( $(this) );
+            quantityOfMoves += 1;
+            updateNumOfMoves();
+
+            if (matchingCheck()) {
+                setTimeout(setMatch, 200);
+
+            } else {
+                setTimeout(resetBoard, 500);
+
+            }
+        }
+    }
+};
+
+// Resets game state and toggles win modal display off
+var playAgain = function() {
+    restartGame();
+    winPopUp.css("display", "none");
+};
+
+/*
+ * Initalize event listeners
+ */
+
+$(".card").click(gameBody);
+$(".restart").click(restartGame);
+$(".play-again").click(playAgain);
+
+// Provides a randomized game board on page load
+$(shuffleCards);

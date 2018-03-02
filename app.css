@@ -118,7 +118,7 @@ h1 {
 */
 
 .popUpWin {
-    display:block;
+    display:none;
     position:absolute;
     background-color: #f7f2e8;
     width: 55%;

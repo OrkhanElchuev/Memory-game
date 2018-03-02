@@ -1,20 +1,20 @@
-# Memory Game Project
+Memory Game Project.
+Hey, welcome to Memory game! 
 
-## Table of Contents
+Memory game is one of the easiest games for playing and it is one of the favourite one for children.
+It requires observation, concentration and a good memory to win.
 
-* [Instructions](#instructions)
-* [Contributing](#contributing)
+The game is also known as Concentration, Pelmanism, Match Match.
 
-## Instructions
+THE RULES FOR PLAYING "MEMORY"
+1) You will see a board with multiple cards. In our case it is 16.
+2) You have to flip one card and then guess where is the matching card(There are 8 different objects, all of them have their pair)
+3) Try to match all the objects by making a few steps!
+4) Enjoy:)
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+To load the game >>> Clone the repository and open index.html file <<<
 
-To get started, open `js/app.js` and start building out the app's functionality
+This game was built as a Udacity course project(Intro To Programming). HTML,CSS,JavaScript.
+Orkhan Elchuev
 
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
 
-## Contributing
-
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
-
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).

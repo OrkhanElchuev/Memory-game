@@ -152,17 +152,29 @@ h1 {
  * Responsive content
  */
 
-@media (max-width: 635px){
-  .deck{
-    width: 85%;
-  }
-
-  .deck .card{
-    height: 60%;
+@media only screen and (max-width: 683px) {
+    .popUpWin{
     width: 60%;
   }
 
-  .popUpWin{
-    width: 50%;
-  }
+    .score-panel {
+        width: 85%;
+    }
+
+    .deck {
+        width: 95%;
+        padding: 15px;
+        min-height: 100vw;
+    }
+
+    .deck .card {
+        width: 18vw;
+        height: 18vw;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    .score-panel {
+        font-size: 18px;
+    }
 }
